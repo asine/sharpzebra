@@ -28,7 +28,7 @@ namespace Com.SharpZebra.Commands
 
         public static byte[] GraphicStore(string pcxFilename, string imageName)
         {
-            FileStream stream = new FileStream(pcxFilename, FileMode.Open, FileAccess.Read);
+            FileStream stream = new FileStream(pcxFilename, FileMode.Open);
             byte[] res = GraphicStore(stream, imageName);
             stream.Close();
             return res;
@@ -59,7 +59,7 @@ namespace Com.SharpZebra.Commands
                             ba[k] = bmp.GetPixel(scanx, y).R > 128;
                         scanx++;
                     }
-                    res.Add(convertToByte(ba));
+                    res.Add(ConvertToByte(ba));
                 }
             }
             return res.ToArray();

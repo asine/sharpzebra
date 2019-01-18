@@ -37,19 +37,6 @@ namespace Com.SharpZebra
         EMSIZE  //emsize is width of the an upper-case M in points.  1 point is 1.3333 pixels.  WPF assumes 96 pixels/inch. Confused yet?
     }
 
-    public class FontCharset
-    {
-        public static string[] CharList = {"0123456789.- ",
-            " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~",
-            "abcdefghijklmnopqrstuvwxyz ",
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ ",
-            "abcdefghijklmnopqrstuvwxyz 0123456789.-",
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.-",
-            " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" + 
-            "ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ² ",
-            "M"};
-    }
-
     public enum ZebraFont
     {
         STANDARD_SMALLEST = 48,
@@ -179,15 +166,63 @@ namespace Com.SharpZebra
         UK = 44
     }
 
+    public enum QualityLevel
+    {
+        ECC_50 = 50,
+        ECC_80 = 80,
+        ECC_100 = 100,
+        ECC_140 = 140,
+        ECC_200 = 200,
+    }
+
+    public enum AspectRatio
+    {
+        SQUARE = 1,
+        RECTANGULAR = 2
+    }
+
+    public static class FontCharset
+    {
+        public static readonly string[] CharList = {"0123456789.- ",
+            " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~",
+            "abcdefghijklmnopqrstuvwxyz ",
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ ",
+            "abcdefghijklmnopqrstuvwxyz 0123456789.-",
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.-",
+            " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" +
+            "ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ² ",
+            "M"};
+    }
+
+    public static class EPLConvert
+    {
+        public static int Rotation(ElementDrawRotation rotation)
+        {
+            switch (rotation)
+            {
+                case ElementDrawRotation.NO_ROTATION:
+                    return 0;
+                case ElementDrawRotation.ROTATE_90_DEGREES:
+                    return 1;
+                case ElementDrawRotation.ROTATE_180_DEGREES:
+                    return 2;
+                case ElementDrawRotation.ROTATE_270_DEGREES:
+                    return 4;
+                default:
+                    return 0;
+            }
+        }
+    }
+
     public class Barcode
     {
         private BarcodeType type;
-        public BarcodeType Type 
+        public BarcodeType Type
         {
-            get {return type;}
+            get { return type; }
             set
             {
-                type = value; 
+                type = value;
                 P4Value = P4ValueList[(int)type];
                 BarWidthNarrowMin = P5MinList[(int)type];
                 BarWidthNarrowMax = P5MaxList[(int)type];
